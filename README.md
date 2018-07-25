@@ -1,38 +1,35 @@
+    Let's create a wallet
     $ cleos wallet create
+    
+    Import private key
     $ cleos wallet import --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 
+    
+    Eosio account creates an account called eosio.bios
     $ cleos create account eosio eosio.bios EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
     
-    ################################################################
+    We upload the bios contract to the eosio.bios account with permission from eosio.bios
+    $ cleos set contract eosio.bios contracts/eosio.bios -p eosio.bios
     
-    cleos set contract eosio.bios contracts/eosio.bios -p eosio.bios
+    Eosio creates an account called eosio.msig
+    $ cleos create account eosio eosio.msig EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+      
+    We then upload the contract eosio.msig into the eosio.msig account  
+    $ cleos set contract eosio.msig contracts/eosio.msig -p eosio.msig
     
-    ################################################################
+    Eosio creates an account called eosio.token    
+    $ cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
     
-    cleos create account eosio eosio.msig EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+    We then upload the token contract into the account
+    $ cleos set contract eosio.token contracts/eosio.token -p eosio.token
     
-    ################################################################
-    
-    cleos set contract eosio.msig contracts/eosio.msig -p eosio.msig
-    
-    ################################################################
-    
-    cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
-    
-    ################################################################
-
-    cleos set contract eosio.token contracts/eosio.token -p eosio.token
-    
-    ################################################################
-
+    We tell the eosio.token contract to create tokens and then issue the tokens to the eosio account
     $ cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"1000000000.0000 EOS", "can_freeze":0, "can_recall":0, "can_whitelist":0}' -p eosio.token
     
-    ################################################################
-    
+    Let's issue tokens to the account eosio
     $ cleos push action eosio.token issue '["eosio","1000000000.0000 EOS","deposit started"]' -p eosio
     
-    ################################################################
-    
-    $ cleos get currency balance eosio.token eosio 1000000000.0000 EOS
+    Let's get the balance of the eosio account for the tokens we just created
+    $ cleos get currency balance eosio.token eosio EOS
 
     ################################################################
     
